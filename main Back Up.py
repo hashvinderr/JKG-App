@@ -488,7 +488,29 @@ class TimesheetPage(QtWidgets.QWidget):
 
         self.load()
 
-    # ... (load, save, eventFilter, on_cell_clicked, on_ok, on_rate_or_hour_changed, update_summary identical to previous version) ...
+    def on_cell_clicked(self, row, column):
+        """Handle cell click events by highlighting the clicked cell."""
+        # Clear previous highlighting by resetting all cell backgrounds
+        for r in range(self.tbl.rowCount()):
+            for c in range(self.tbl.columnCount()):
+                item = self.tbl.item(r, c)
+                if item:
+                    item.setBackground(QtGui.QColor())  # Reset to default background
+        
+        # Update current selection tracking
+        self.current_row = row
+        self.current_col = column
+        
+        # Highlight the clicked cell with a light blue background
+        item = self.tbl.item(row, column)
+        if not item:
+            # Create item if it doesn't exist
+            item = QtWidgets.QTableWidgetItem("")
+            self.tbl.setItem(row, column, item)
+        
+        # Set highlighting color (light blue)
+        highlight_color = QtGui.QColor(173, 216, 230)  # Light blue
+        item.setBackground(highlight_color)
 
     def on_export(self):
         # Build DataFrame
