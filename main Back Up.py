@@ -426,7 +426,7 @@ import json
 import calendar
 import pandas as pd
 from datetime import datetime, timedelta
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 from openpyxl import load_workbook
 
 # Default values
@@ -489,6 +489,11 @@ class TimesheetPage(QtWidgets.QWidget):
         self.load()
 
     # ... (load, save, eventFilter, on_cell_clicked, on_ok, on_rate_or_hour_changed, update_summary identical to previous version) ...
+
+    def on_cell_clicked(self, row, column):
+        item = self.tbl.item(row, column)
+        if item:
+            item.setBackground(QtGui.QColor('yellow'))
 
     def on_export(self):
         # Build DataFrame
